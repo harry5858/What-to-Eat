@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.whatToEat.ui.home.HomeFragment">
+        <action
+            android:id="@+id/action_home_fragment_to_saved_recipe_fragment"
+            app:destination="@id/savedMealsFragment"/>
+        <action
+            android:id="@+id/action_home_fragment_to_detail_fragment"
+            app:destination="@id/mealDetailFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addMealFragment"
+        android:name="com.example.whatToEat.ui.addMeal.AddMealFragment">
+    </fragment>
+    <fragment
+        android:id="@+id/mealDetailFragment"
+        android:name="com.example.whatToEat.ui.mealDetail.MealDetailFragment">
+        <argument
+            android:name="meal_uid"
+            android:defaultValue="-1"
+            app:argType="integer"/>
+        <argument
+            android:name="meal_api_id"
+            android:defaultValue="-1"
+            app:argType="integer"/>
+    </fragment>
+    <fragment
+        android:id="@+id/savedMealsFragment"
+        android:name="com.example.whatToEat.ui.savedMeals.SavedMealsFragment">
+        <action
+            android:id="@+id/action_saved_recipe_fragment_to_recipe_detail_fragment"
+            app:destination="@id/mealDetailFragment"/>
+        <action
+            android:id="@+id/action_home_fragment_to_add_recipe_fragment"
+            app:destination="@id/addMealFragment"/>
+    </fragment>
+</navigation>

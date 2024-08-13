@@ -1,0 +1,99 @@
+<resources>
+    <string name="app_name">What To Eat</string>
+    <string name="home_fragment_app_bar_title">Home</string>
+    <string name="home_fragment_roll_button">Click me to get a recipe!</string>
+    <string name="home_fragment_to_recipe_button">Let\'s cook this!</string>
+    <string name="add_recipe_fragment_title">Add a new recipe</string>
+    <string name="app_bar_fav_button_content_description">Save</string>
+    <string name="app_bar_add_button_content_description">Add</string>
+    <string name="app_bar_back_button_content_description">Back</string>
+    <string name="saved_meals_fragment_app_bar_title">Saved Meals</string>
+    <string name="meal_detail_instruction_header">Instruction</string>
+    <string name="meal_detail_ingredient_header">Ingredients &amp; Measurements</string>
+    <string name="meal_detail_youtube_button_title">Watch on Youtube</string>
+    <string name="add_meal_edit_text_instruction_title">Instruction</string>
+    <string name="add_meal_edit_text_meal_name_title">Meal Name</string>
+    <string name="add_meal_edit_text_area_title">Area</string>
+    <string name="add_meal_edit_text_category_title">Category</string>
+    <string name="add_meal_edit_text_youtube_url_title">Youtube Link</string>
+    <string name="add_meal_edit_text_thumbnail_url_title">Meal Image Link</string>
+    <string name="add_meal_add_ingredient_button_title">+Add</string>
+    <string name="add_meal_edit_text_ingredient">Ingredient</string>
+    <string name="add_meal_edit_text_measurement">Measurement</string>
+    <string name="add_mea_add_ingredient_index">%s.</string>
+    <string name="meal_detail_instruction_detail_dummy">
+        0.\tMarinate beef in soy sauce, lemon (or calamansi), and ground black pepper for at least 1 hour. Note: marinate overnight for best result\r\n1.\tHeat the cooking oil in a pan then pan-fry half of the onions until the texture becomes soft. Set aside\r\n2.\tDrain the marinade from the beef. Set it aside. Pan-fry the beef on the same pan where the onions were fried for 1 minute per side. Remove from the pan. Set aside\r\n3.\tAdd more oil if needed. Saute garlic and remaining raw onions until onion softens.\r\n4.\tPour the remaining marinade and water. Bring to a boil.\r\n5.\tAdd beef. Cover the pan and simmer until the meat is tender. Note: Add water as needed.\r\n6.\tSeason with ground black pepper and salt as needed. Top with pan-fried onions.\r\n7.\tTransfer to a serving plate. Serve hot. Share and Enjoy!
+    </string>
+    <string name="scrolltext">Kotlin is a statically typed,
+                 general-purpose programming language developed
+                 by JetBrains, that has built world-class IDEs
+                 like IntelliJ IDEA, PhpStorm, Appcode, etc.
+                 It was first introduced by JetBrains in 2011
+                 and a new language for the JVM. Kotlin is
+                 object-oriented language, and a “better language”
+                 than Java, but still be fully interoperable
+                 with Java code. Kotlin is sponsored by Google,
+                 announced as one of the official languages for
+                 Android Development in 2017.
+                 Advantages of Kotlin language:
+                 Easy to learn – Basic is almost similar to java.
+                 If anybody worked in java then easily understand
+                 in no time. Kotlin is multi-platform – Kotlin is
+                 supported by all IDEs of java so you can write
+                 your program and execute them on any machine
+                 which supports JVM. It’s much safer than Java.
+                 It allows using the Java frameworks and libraries
+                 in your new Kotlin projects by using advanced
+                 frameworks without any need to change the whole
+                 project in Java. Kotlin programming language,
+                 including the compiler, libraries and all the
+                 tooling is completely free and open source and
+                 available on github. Here is the link for
+                 Github https://github.com/JetBrains/kotlin
+                 Applications of Kotlin language:
+                 You can use Kotlin to build Android Application.
+                 Kotlin can also compile to JavaScript, and making
+                 it available for the frontend. It is also designed
+                 to work well for web development and server-side
+                 development.Kotlin is a statically typed, general-purpose
+                 programming language developed by JetBrains that
+                 has built world-class IDEs like IntelliJ IDEA,
+                 PhpStorm, Appcode, etc. It was first introduced
+                 by JetBrains in 2011.Kotlin is object-oriented
+                 language and a better language than Java, but still
+                 be fully interoperable with Java code. A constructor
+                 is a special member function that is invoked when
+                 an object of the class is created primarily to initialize
+                 variables or properties. A class needs to have a constructor
+                 and if we do not declare a constructor, then the compiler
+                 generates a default constructor.
+                 Kotlin has two types of constructors –
+                 Primary Constructor
+                 Secondary Constructor
+                 A class in Kotlin can have at most one primary
+                 constructor, and one or more secondary constructors.
+                 The primary constructor
+                 initializes the class, while the secondary
+                 constructor is used
+                 to initialize the class and introduce some extra logic.
+                 Explanation:
+                 When we create the object add for the class then
+                 the values 5 and 6
+                 passes to the constructor. The constructor
+                 parameters a and b
+                 initialize with the parameters 5 and 6 respectively.
+                 The local variable c contains the sum of variables.
+                 In the main, we access the property of
+                 contructor using ${add.c}.
+                 Explanation:
+                 Here, we have initialized the constructor
+                 parameters with some
+                 default values emp_id = 100 and emp_name = “abc”.
+                 When the object emp is created we passed the values for
+                 both the parameters so it prints those values.
+                 But, at the time of object emp2 creation,
+                 we have not passed
+                 the emp_name so initializer block uses
+                 the default values and
+                 print to the standard output.</string>
+</resources>
