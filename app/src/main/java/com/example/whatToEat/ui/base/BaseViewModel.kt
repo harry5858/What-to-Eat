@@ -12,7 +12,10 @@ abstract class BaseViewModel() : ViewModel() {
 
     private val job: Job = Job()
 
-    abstract val coroutineExceptionHandler: CoroutineExceptionHandler
+    open val coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        // TODO use Timber
+        println("--------------- coroutine exception: ${exception.message}")
+    }
 
     protected fun launchCoroutineIO(block: suspend CoroutineScope.() -> Unit): Job {
         return viewModelScope.launch(Dispatchers.IO + job + coroutineExceptionHandler) {

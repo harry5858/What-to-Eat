@@ -6,10 +6,14 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.whatToEat.R
 import com.example.whatToEat.databinding.AddIngredientMeasurementItemBinding
 import com.example.whatToEat.databinding.FragmentAddRecipeBinding
+import com.example.whatToEat.domain.model.AddMealUiModel
+import com.example.whatToEat.domain.util.Error
 import com.example.whatToEat.ui.base.BaseFragment
+import com.example.whatToEat.ui.util.toErrorString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -24,8 +28,8 @@ class AddMealFragment() : BaseFragment<FragmentAddRecipeBinding, AddMealViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupTopBar()
         lifecycleScope.launch {
-            viewModel.meal.collect {
-
+            viewModel.addMealUiModel.collect {
+                onViewStateChange(it)
             }
         }
         binding.etMealName.doOnTextChanged { text, _, _, _ -> viewModel.onMealNameChange(text.toString()) }
@@ -52,6 +56,8 @@ class AddMealFragment() : BaseFragment<FragmentAddRecipeBinding, AddMealViewMode
                 measurement = viewBinding.vMeasurement.text.toString()
             ) {
                 binding.llAddIngredientSection.llIngredientMeasurementItems.addView(viewBinding.root)
+                binding.llAddIngredientSection.etIngredient.text?.clear()
+                binding.llAddIngredientSection.etMeasurement.text?.clear()
             }
         }
         super.onViewCreated(view, savedInstanceState)
@@ -69,12 +75,39 @@ class AddMealFragment() : BaseFragment<FragmentAddRecipeBinding, AddMealViewMode
             visibility = View.VISIBLE
             setImageResource(R.drawable.ic_check)
             setOnClickListener {
-                //TODO
+                viewModel.onSaveRecipeClick()
             }
         }
     }
 
-    private fun onError() {
+    private fun onViewStateChange(event: AddMealUiModel?) {
+        event?.let { uiModel ->
+            when (uiModel) {
+                is AddMealUiModel.Failure -> {
+                    handleLoading(false)
+                    when(uiModel.error) {
+                        Error.AddMealError.EmptyInstructionError -> {
+                            binding.etInstruction.error = uiModel.error.toErrorString(context)
+                        }
+                        Error.AddMealError.EmptyMealNameError -> {
+                            binding.etMealName.error = uiModel.error.toErrorString(context)
+                        }
+                        Error.AddMealError.InvalidYoutubeUrlError -> {
+                            binding.etYoutubeUrl.error = uiModel.error.toErrorString(context)
+                        }
+                        else -> {}
+                    }
+                    handleErrorMessage(uiModel.error.toErrorString(context))
+                }
+                AddMealUiModel.Loading -> {
+                    handleLoading(true)
+                }
+                AddMealUiModel.Success -> {
+                    handleLoading(false)
+                    findNavController().popBackStack()
+                }
+            }
+        }
 
     }
 }

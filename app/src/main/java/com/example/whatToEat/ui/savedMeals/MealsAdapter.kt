@@ -6,6 +6,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.whatToEat.R
 import com.example.whatToEat.databinding.SavedMealRowItemBinding
 import com.example.whatToEat.domain.model.Meal
 
@@ -24,7 +25,7 @@ class MealsAdapter(private val dataSet: List<Meal>):
         val meal = dataSet[position]
         holder.binding.apply {
             Glide.with(this.root)
-                .load(meal.thumbnail)
+                .load(meal.thumbnail ?: R.drawable.mark)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.binding.vThumbnail)
             this.vMealName.text = meal.mealName
