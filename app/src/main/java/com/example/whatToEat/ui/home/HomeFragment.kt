@@ -1,9 +1,7 @@
 package com.example.whatToEat.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -14,7 +12,7 @@ import com.example.whatToEat.R
 import com.example.whatToEat.databinding.FragmentHomeBinding
 import com.example.whatToEat.domain.model.MealUiModel
 import com.example.whatToEat.ui.base.BaseFragment
-import com.example.whatToEat.ui.savedMeals.SavedMealsFragmentDirections
+import com.example.whatToEat.ui.util.toErrorString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -55,8 +53,9 @@ class HomeFragment: BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private fun onViewStateChange(event: MealUiModel?) {
         event?.let { uiModel ->
             when (uiModel) {
-                is MealUiModel.Error -> {
-                    this.handleErrorMessage(uiModel.error)
+                is MealUiModel.Failure -> {
+                    this.handleLoading(false)
+                    this.handleErrorMessage(uiModel.error.toErrorString(context))
                 }
                 MealUiModel.Loading -> {
                     this.handleLoading(true)
@@ -66,17 +65,20 @@ class HomeFragment: BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                     binding.btnToDetail.apply {
                         isEnabled = true
                         setOnClickListener {
-                            this@HomeFragment.findNavController().navigate(
-                                HomeFragmentDirections.actionHomeFragmentToDetailFragment(
-                                    mealUid = uiModel.data.uid,
-                                    mealApiId = uiModel.data.apiId
+                            uiModel.data.let { safeMeal ->
+                                this@HomeFragment.findNavController().navigate(
+                                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                                        mealUid = safeMeal.uid,
+                                        mealApiId = safeMeal.apiId
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                     binding.vMeal.text = uiModel.data.mealName
                     Glide.with(this)
                         .load(uiModel.data.thumbnail)
+                        .fallback(R.drawable.mark)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(binding.vThumbnail)
                 }

@@ -13,11 +13,12 @@ import com.example.whatToEat.R
 import com.example.whatToEat.databinding.FragmentSavedMealsBinding
 import com.example.whatToEat.domain.model.MealsUiModel
 import com.example.whatToEat.ui.base.BaseFragment
+import com.example.whatToEat.ui.util.toErrorString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SavedMealsFragment() : BaseFragment<FragmentSavedMealsBinding, SavedMealsViewModel>() {
+class SavedMealsFragment : BaseFragment<FragmentSavedMealsBinding, SavedMealsViewModel>() {
     override val viewModel: SavedMealsViewModel by viewModels()
 
     override fun getViewBinding(): FragmentSavedMealsBinding {
@@ -70,9 +71,9 @@ class SavedMealsFragment() : BaseFragment<FragmentSavedMealsBinding, SavedMealsV
     private fun onViewStateChange(event: MealsUiModel?) {
         event?.let { uiEvent ->
             when (uiEvent) {
-                is MealsUiModel.Error -> {
+                is MealsUiModel.Failure -> {
                     handleLoading(false)
-                    handleErrorMessage(uiEvent.error)
+                    handleErrorMessage(uiEvent.error.toErrorString(context))
                 }
                 MealsUiModel.Loading -> { handleLoading(true) }
                 is MealsUiModel.Success -> {

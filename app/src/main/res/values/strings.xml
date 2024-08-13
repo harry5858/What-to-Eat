@@ -20,7 +20,13 @@
     <string name="add_meal_add_ingredient_button_title">+Add</string>
     <string name="add_meal_edit_text_ingredient">Ingredient</string>
     <string name="add_meal_edit_text_measurement">Measurement</string>
-    <string name="add_mea_add_ingredient_index">%s.</string>
+    <string name="add_meal_meal_name_empty_error_message">Meal name cannot be empty.</string>
+    <string name="add_meal_instruction_empty_error_message">Instruction cannot be empty.</string>
+    <string name="add_meal_invalid_youtube_url_error_message">Youtube url is invalid.</string>
+    <string name="add_meal_maximum_ingredient_error_message">Sorry, cannot add more ingredient.</string>
+    <string name="unknown_error">Unknown error.</string>
+    <string name="api_error">API Error: %s</string>
+    <string name="database_error">Database error</string>
     <string name="meal_detail_instruction_detail_dummy">
         0.\tMarinate beef in soy sauce, lemon (or calamansi), and ground black pepper for at least 1 hour. Note: marinate overnight for best result\r\n1.\tHeat the cooking oil in a pan then pan-fry half of the onions until the texture becomes soft. Set aside\r\n2.\tDrain the marinade from the beef. Set it aside. Pan-fry the beef on the same pan where the onions were fried for 1 minute per side. Remove from the pan. Set aside\r\n3.\tAdd more oil if needed. Saute garlic and remaining raw onions until onion softens.\r\n4.\tPour the remaining marinade and water. Bring to a boil.\r\n5.\tAdd beef. Cover the pan and simmer until the meat is tender. Note: Add water as needed.\r\n6.\tSeason with ground black pepper and salt as needed. Top with pan-fried onions.\r\n7.\tTransfer to a serving plate. Serve hot. Share and Enjoy!
     </string>

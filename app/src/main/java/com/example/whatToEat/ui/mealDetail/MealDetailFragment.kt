@@ -16,6 +16,7 @@ import com.example.whatToEat.databinding.FragmentDetailBinding
 import com.example.whatToEat.databinding.IngredientMeasurementItemBinding
 import com.example.whatToEat.domain.model.MealUiModel
 import com.example.whatToEat.ui.base.BaseFragment
+import com.example.whatToEat.ui.util.toErrorString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -65,18 +66,21 @@ class MealDetailFragment: BaseFragment<FragmentDetailBinding, MealDetailViewMode
     }
 
     private fun onViewStateChange(event: MealUiModel?) {
-        event?.let { uiEvent ->
-            when (uiEvent) {
-                is MealUiModel.Error -> { this.handleErrorMessage(uiEvent.error) }
+        event?.let { uiModel ->
+            when (uiModel) {
+                is MealUiModel.Failure -> {
+                    this.handleLoading(false)
+                    this.handleErrorMessage(uiModel.error.toErrorString(context))
+                }
                 MealUiModel.Loading -> { this.handleLoading(isLoading = true) }
                 is MealUiModel.Success -> {
                     this.handleLoading(isLoading = false)
-                    binding.vAppbar.vTitle.text = uiEvent.data.mealName
+                    binding.vAppbar.vTitle.text = uiModel.data.mealName
                     Glide.with(this)
-                        .load(uiEvent.data.thumbnail)
+                        .load(uiModel.data.thumbnail ?: R.drawable.mark)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(binding.vThumbnail)
-                    uiEvent.data.youtube?.let { safeYoutubeUrl ->
+                    uiModel.data.youtube?.let { safeYoutubeUrl ->
                         binding.btnYoutube.root.apply {
                             visibility = View.VISIBLE
                             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(safeYoutubeUrl))
@@ -87,10 +91,13 @@ class MealDetailFragment: BaseFragment<FragmentDetailBinding, MealDetailViewMode
                             }
                         }
                     }
-                    binding.vMealDetailInstructionSection.vInstructionDetail.text = uiEvent.data.instructions
-                    binding.vArea.root.text = uiEvent.data.area
-                    binding.vCategory.root.text = uiEvent.data.category
-                    uiEvent.data.ingredientMeasurementList.forEach {
+                    binding.vMealDetailInstructionSection.vInstructionDetail.text = uiModel.data.instructions
+                    if (uiModel.data.area.isNotBlank() || uiModel.data.category.isNotBlank()) {
+                        binding.llAreaAndCategory.visibility = View.VISIBLE
+                        binding.vArea.root.text = uiModel.data.area
+                        binding.vCategory.root.text = uiModel.data.category
+                    }
+                    uiModel.data.ingredientMeasurementList.forEach {
                         if (!it.ingredient.isNullOrBlank()) {
                             val customViewBinding = IngredientMeasurementItemBinding.inflate(layoutInflater).apply {
                                 this.vIngredient.text = it.ingredient

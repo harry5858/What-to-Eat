@@ -1,8 +1,10 @@
 package com.example.whatToEat.ui.mealDetail
 
 import androidx.lifecycle.viewModelScope
+import com.example.whatToEat.data.util.Result
 import com.example.whatToEat.domain.model.Meal
 import com.example.whatToEat.domain.model.MealUiModel
+import com.example.whatToEat.domain.useCases.CheckIsMealAlreadySavedUseCase
 import com.example.whatToEat.domain.useCases.DeleteSavedMealUseCase
 import com.example.whatToEat.domain.useCases.GetMealDetailByIdUseCase
 import com.example.whatToEat.domain.useCases.SaveMealUseCase
@@ -18,7 +20,8 @@ import javax.inject.Inject
 class MealDetailViewModel @Inject constructor(
     private val getMealDetailByIdUseCase: GetMealDetailByIdUseCase,
     private val saveMealUseCase: SaveMealUseCase,
-    private val deleteSavedMealUseCase: DeleteSavedMealUseCase
+    private val deleteSavedMealUseCase: DeleteSavedMealUseCase,
+    private val checkIsMealAlreadySavedUseCase: CheckIsMealAlreadySavedUseCase
 ): BaseViewModel() {
 
     private val _meal: MutableStateFlow<MealUiModel?> = MutableStateFlow(null)
@@ -28,22 +31,37 @@ class MealDetailViewModel @Inject constructor(
     private val _isSaved: MutableStateFlow<Boolean?> = MutableStateFlow(null)
     val isSaved: StateFlow<Boolean?> = _isSaved
 
-    override val coroutineExceptionHandler =
-        CoroutineExceptionHandler { _, exception ->
-            println("------------------ exception: ${exception.message}")
-            _meal.value = MealUiModel.Error(exception.message ?: "Error")
-        }
-
     fun fetchMeal(uid: Int, apiId: Int) {
-        viewModelScope.launch {
-            _isSaved.value = uid >= 0
+        println("------------------ fetchMeal called uid -- $uid apiId -- $apiId")
+        this.launchCoroutineIO {
+            if (uid >= 0) {
+                _isSaved.value = true
+            } else {
+                when (val hasDbEntry = checkIsMealAlreadySavedUseCase.invoke(apiId)) {
+                    is Result.Error -> {
+                        _meal.value = MealUiModel.Failure(hasDbEntry.error)
+                        _isSaved.value = false
+                    }
+                    is Result.Success -> {
+                        _isSaved.value = hasDbEntry.data
+                    }
+                }
+            }
         }
+//        viewModelScope.launch {
+//            _isSaved.value = uid >= 0
+//        }
         this.launchCoroutineIO {
             _meal.value = MealUiModel.Loading
             getMealDetailByIdUseCase.invoke(uid, apiId)
                 .collect {
-                    _meal.value = MealUiModel.Success(it)
-                    _mealObject = it
+                    when (it) {
+                        is Result.Error -> { _meal.value = MealUiModel.Failure(it.error) }
+                        is Result.Success -> {
+                            _meal.value = MealUiModel.Success(it.data)
+                            _mealObject = it.data
+                        }
+                    }
                 }
         }
     }

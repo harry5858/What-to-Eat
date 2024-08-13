@@ -9,9 +9,6 @@ import androidx.lifecycle.LifecycleObserver
 import com.example.whatToEat.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-/**
- * show single loading dialog
- */
 var loadingDialog: Dialog? = null
 
 fun Fragment.showLoadingDialog(

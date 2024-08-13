@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.whatToEat.data.local.dao.MealDao
 import com.example.whatToEat.data.local.database.MealDatabase
-import com.example.whatToEat.data.local.models.IngredientMeasurementEntityConverter
+import com.example.whatToEat.data.local.models.IngredientMeasurementEntityListConverter
 import com.example.whatToEat.data.remote.MealApi
 import com.example.whatToEat.data.repository.MealRepositoryImpl
 import com.example.whatToEat.domain.repository.MealRepository
@@ -12,7 +12,9 @@ import com.example.whatToEat.domain.useCases.DeleteSavedMealUseCase
 import com.example.whatToEat.domain.useCases.GetMealDetailByIdUseCase
 import com.example.whatToEat.domain.useCases.GetRandomMealUseCase
 import com.example.whatToEat.domain.useCases.SaveMealUseCase
-import com.example.whatToEat.utils.BASE_URL
+import com.example.whatToEat.data.util.BASE_URL
+import com.example.whatToEat.domain.useCases.CheckIsMealAlreadySavedUseCase
+import com.example.whatToEat.domain.useCases.SaveCustomMealUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,7 +64,7 @@ object Module {
             klass = MealDatabase::class.java,
             name = "MealDatabase"
         )
-            .addTypeConverter(IngredientMeasurementEntityConverter())
+            .addTypeConverter(IngredientMeasurementEntityListConverter())
             .build()
     }
 
@@ -82,7 +84,17 @@ object Module {
     }
 
     @Provides
+    fun provideSaveCustomMealUseCase(mealRepository: MealRepository): SaveCustomMealUseCase {
+        return SaveCustomMealUseCase(mealRepository)
+    }
+
+    @Provides
     fun provideDeleteSavedMealUseCase(mealRepository: MealRepository): DeleteSavedMealUseCase {
         return DeleteSavedMealUseCase(mealRepository)
+    }
+
+    @Provides
+    fun provideCheckIsMealAlreadySavedUseCase(mealRepository: MealRepository): CheckIsMealAlreadySavedUseCase {
+        return CheckIsMealAlreadySavedUseCase(mealRepository)
     }
 }

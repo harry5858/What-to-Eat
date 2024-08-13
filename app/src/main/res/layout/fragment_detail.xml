@@ -34,10 +34,13 @@
                 app:shapeAppearanceOverlay="@style/RoundedCorner"/>
 
             <LinearLayout
+                android:id="@+id/llAreaAndCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <include
                     android:id="@+id/vArea"
