@@ -13,6 +13,7 @@ import com.example.whatToEat.R
 import com.example.whatToEat.databinding.FragmentSavedMealsBinding
 import com.example.whatToEat.domain.model.MealsUiModel
 import com.example.whatToEat.ui.base.BaseFragment
+import com.example.whatToEat.ui.util.MarginItemDecoration
 import com.example.whatToEat.ui.util.toErrorString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -44,7 +45,10 @@ class SavedMealsFragment : BaseFragment<FragmentSavedMealsBinding, SavedMealsVie
         val layoutManager: LayoutManager = LinearLayoutManager(context).apply {
             orientation = LinearLayoutManager.VERTICAL
         }
-        binding.rvMeals.layoutManager = layoutManager
+        binding.rvMeals.apply {
+            this.layoutManager = layoutManager
+            this.addItemDecoration(MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.meal_row_item_margin)))
+        }
         setupTopBar()
         super.onViewCreated(view, savedInstanceState)
     }

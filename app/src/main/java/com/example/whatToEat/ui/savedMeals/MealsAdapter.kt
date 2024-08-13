@@ -1,6 +1,7 @@
 package com.example.whatToEat.ui.savedMeals
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ class MealsAdapter(private val dataSet: List<Meal>):
     inner class ViewHolder(val binding: SavedMealRowItemBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = SavedMealRowItemBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = SavedMealRowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -29,7 +30,18 @@ class MealsAdapter(private val dataSet: List<Meal>):
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.binding.vThumbnail)
             this.vMealName.text = meal.mealName
-            // TODO add area and category
+            if (meal.area.isNotBlank()) {
+                holder.binding.vArea.root.apply {
+                    visibility = View.VISIBLE
+                    text = meal.area
+                }
+            }
+            if (meal.category.isNotBlank()) {
+                holder.binding.vCategory.root.apply {
+                    visibility = View.VISIBLE
+                    text = meal.category
+                }
+            }
         }
         holder.itemView.setOnClickListener {
             holder.binding.root.findNavController().navigate(
