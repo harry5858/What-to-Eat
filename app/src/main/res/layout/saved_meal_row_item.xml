@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corner_bg"
     android:paddingVertical="4dp"
-    android:paddingHorizontal="8dp"
-    android:orientation="horizontal">
+    android:paddingHorizontal="8dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/vThumbnail"
@@ -21,8 +21,7 @@
         android:layout_height="0dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
@@ -31,12 +30,42 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="4dp"
             tools:text="dummy text" />
 
-        <!--   TODO add area and category   -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="48dp" />
+
+
+        <include
+            android:id="@+id/vArea"
+            layout="@layout/area_and_category_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/vCategory"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/vCategory"
+            layout="@layout/area_and_category_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/vArea"
+            app:layout_constraintTop_toBottomOf="@id/guideline"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
